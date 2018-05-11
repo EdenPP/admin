@@ -2714,58 +2714,28 @@ colorAdminApp.controller('errorController', function($scope, $rootScope, $state)
 });
 
 
-
-/* -------------------------------
-   58.0 CONTROLLER - Login V1
-------------------------------- */
-colorAdminApp.controller('loginV1Controller', function($scope, $rootScope, $state) {
-    $rootScope.setting.layout.pageWithoutHeader = true;
-    $rootScope.setting.layout.paceTop = true;
-    
-    $scope.submitForm = function(form) {
-        $state.go('app.dashboard.v2');
-    };
-});
-
-
-
-/* -------------------------------
-   59.0 CONTROLLER - Login V2
-------------------------------- */
-colorAdminApp.controller('loginV2Controller', function($scope, $rootScope, $state) {
-    $rootScope.setting.layout.pageWithoutHeader = true;
-    $rootScope.setting.layout.paceTop = true;
-    
-    $scope.submitForm = function(form) {
-        $state.go('app.dashboard.v2');
-    };
-    
-    $('[data-click="change-bg"]').click(function() {
-        var targetImage = '[data-id="login-cover-image"]';
-        var targetImageSrc = $(this).find('img').attr('src');
-        var targetImageHtml = '<img src="'+ targetImageSrc +'" data-id="login-cover-image" />';
-        
-        $('.login-cover-image').prepend(targetImageHtml);
-        $(targetImage).not('[src="'+ targetImageSrc +'"]').fadeOut('slow', function() {
-            $(this).remove();
-        });
-        $('[data-click="change-bg"]').closest('li').removeClass('active');
-        $(this).closest('li').addClass('active');	
-    });
-});
-
-
-
 /* -------------------------------
    60.0 CONTROLLER - Login V3
 ------------------------------- */
-colorAdminApp.controller('loginV3Controller', function($scope, $rootScope, $state) {
+colorAdminApp.controller('loginController', function($scope, $http, $rootScope, $state) {
     $rootScope.setting.layout.pageWithoutHeader = true;
     $rootScope.setting.layout.paceTop = true;
     $rootScope.setting.layout.pageBgWhite = true;
+
+    $scope.loginForm = {
+        'email':        '',
+        'password':     '',
+        'remember':     ''
+    };
     
     $scope.submitForm = function(form) {
+        console.log(form);
+        $http.post('/login', form, function (resp) {
+            console.log(resp);
+        });
+        return;
         $state.go('index.index.index');
+
     };
 });
 

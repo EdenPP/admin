@@ -14,3 +14,8 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+Route::group([], function () {
+    Route::post('/login', 'Admin\LoginController@login');
+});
