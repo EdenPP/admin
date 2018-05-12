@@ -11,8 +11,14 @@ var colorAdminApp = angular.module('colorAdminApp', [
     'oc.lazyLoad'
 ]);
 
+colorAdminApp.config(['$httpProvider', function ($httpProvider) {
+    $httpProvider.interceptors.push('UserInterceptor');
+}]);
+
 colorAdminApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
+
     $urlRouterProvider.otherwise('/index/index/index');
+    // $urlRouterProvider.html5Mode(true);
 
     $stateProvider
         .state('index', {
@@ -34,6 +40,16 @@ colorAdminApp.config(['$stateProvider', '$urlRouterProvider', function($statePro
         .state('login', {
             url: '/login',
             data: { pageTitle: '用户登录' },
+            resolve: {
+                service: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        files: [
+                            'assets/plugins/gritter/css/jquery.gritter.css',
+                            'assets/plugins/gritter/js/jquery.gritter.js'
+                        ]
+                    });
+                }]
+            },
             templateUrl: 'views/login.html'
         })
 }]);

@@ -45,8 +45,19 @@ class LoginController extends AdminBaseController
             // TODO save to session
         }
 
-        return Response::success('login success');
+        $token = md5(123456);
 
+        return Response::success(['token' => $token]);
+
+    }
+
+    /**
+     * 退出
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function logOut()
+    {
+        return Response::error(403);
     }
 
 }

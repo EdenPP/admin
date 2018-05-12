@@ -17,5 +17,6 @@ Route::get('/', function () {
 
 
 Route::group([], function () {
+    Route::get('/logout', 'Admin\LoginController@logOut');
     Route::post('/login', 'Admin\LoginController@login');
 });
