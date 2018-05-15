@@ -11,17 +11,34 @@ namespace App\Services;
 
 use App\Exceptions\ResponseException;
 use App\Libs\MessageCode;
+use App\Libs\Util;
 use App\Model\AdminUserModel;
 
 class AdminUserService
 {
+
+    public static function getAdminUserByEmail(string $email)
+    {
+
+    }
+
+    /**
+     * @param $uid
+     * @param array $data
+     * @return int
+     */
+    public static function update($uid, $data = [])
+    {
+        return AdminUserModel::getInstance()->update($uid, $data);
+    }
+
     /**
      * @param $email
      * @param $password
-     * @return bool
+     * @return array
      * @throws ResponseException
      */
-    public static function checkAdminUser($email, $password)
+    public static function checkAdminUser($email, $password) :array
     {
 
         $user = AdminUserModel::getInstance()->getUserByEmail($email);
@@ -38,7 +55,7 @@ class AdminUserService
             throw new ResponseException(MessageCode::AD_USER_FREEZING);
         }
 
-        return true;
+        return Util::objToArray($user);
     }
 
     /**

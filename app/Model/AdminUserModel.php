@@ -43,6 +43,17 @@ class AdminUserModel extends DB
         return DB::table($this->table)->where('email', $email)->first();
     }
 
+    /**
+     * 修改数据
+     * @param string $uid
+     * @param array $data
+     * @return int
+     */
+    public function update($uid, $data)
+    {
+        $data['update_time'] = date('Y-m-d H:i:s');
+        return DB::table($this->table)->where('id', $uid)->update($data);
+    }
 
 
 

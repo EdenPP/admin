@@ -16,7 +16,16 @@ Route::get('/', function () {
 });
 
 
-Route::group([], function () {
-    Route::get('/logout', 'Admin\LoginController@logOut');
-    Route::post('/login', 'Admin\LoginController@login');
+Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['admin.auth']], function () {
+    Route::get('/demo', [
+        'as' => 'demo', 'uses' =>'LoginController@demo'
+    ]);
+
+    Route::post('/login', 'LoginController@login');
+    Route::get('/logout', 'LoginController@logOut');
+
+    Route::group(['prefix' => 'user'], function () {
+        Route::get('/profile', 'UserController@profile');
+    });
+
 });

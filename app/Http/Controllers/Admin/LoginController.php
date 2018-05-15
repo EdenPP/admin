@@ -10,10 +10,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Exceptions\ResponseException;
+use App\Libs\RedisKey;
 use App\Libs\Response;
 use App\Services\AdminUserService;
 use Illuminate\Http\Request;
 use App\Libs\MessageCode;
+use Illuminate\Support\Facades\Redis;
+use Webpatser\Uuid\Uuid;
 
 class LoginController extends AdminBaseController
 {
@@ -26,12 +29,18 @@ class LoginController extends AdminBaseController
         parent::__construct();
     }
 
+    public function demo()
+    {
+        return 'here';
+    }
+
     /**
      * 后台用户登录
      *
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      * @throws ResponseException
+     * @throws \Exception
      */
     public function login(Request $request)
     {
@@ -40,24 +49,31 @@ class LoginController extends AdminBaseController
             throw new ResponseException(MessageCode::PARAMETER_ERROR);
         }
 
-        $success = AdminUserService::checkAdminUser($params['email'], $params['password']);
-        if ($success) {
-            // TODO save to session
+        $user = AdminUserService::checkAdminUser($params['email'], $params['password']);
+        if ($user) {
+            unset($user['password'], $user['salt']);
+            $token = Uuid::generate()->string;
+            $this->initToken($token);
+            $this->setToken('status', true);
+            $this->setToken('user', $user);
+            AdminUserService::update($user['id'], ['update_ip' => $request->ip()]);
+            return Response::success(['token' => $token]);
         }
 
-        $token = md5(123456);
-
-        return Response::success(['token' => $token]);
-
+        throw new ResponseException(MessageCode::AD_INVALID);
     }
 
     /**
      * 退出
-     * @return \Illuminate\Http\JsonResponse
+     * @throws ResponseException
      */
     public function logOut()
     {
-        return Response::error(403);
+        if ($this->removeToken()) {
+            return Response::success();
+        } else {
+            throw new ResponseException(MessageCode::INNER_ERROR);
+        }
     }
 
 }

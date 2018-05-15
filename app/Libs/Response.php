@@ -26,11 +26,16 @@ class Response
      */
     public static function success($data = '')
     {
-        return response()->json([
-            'code'      => MessageCode::OK,
-            'message'   => MessageCode::getMessage(MessageCode::OK),
-            'data'      => $data,
-        ]);
+        try {
+            $resp = [
+                'code' => MessageCode::OK,
+                'message' => MessageCode::getMessage(MessageCode::OK),
+                'data' => $data,
+            ];
+            return response()->json($resp);
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+        }
     }
 
     /**
@@ -45,6 +50,15 @@ class Response
             'code' => $code,
             'message' => MessageCode::getMessage($code) ?? '',
         ]);
+    }
+
+    /**
+     * 用户未登录
+     * @return $this
+     */
+    public static function denied()
+    {
+        return response()->json('please login first', 401);
     }
 
 }

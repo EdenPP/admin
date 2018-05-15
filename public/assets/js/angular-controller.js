@@ -171,8 +171,29 @@ function validateEmail(email) {
    4.0 CONTROLLER - Header
 ------------------------------- */
 colorAdminApp.controller('headerController', function($scope, $http, $rootScope, $state) {
+
+    $scope.loadUserProfile = function () {
+        $http.get('/user/profile').success(function (res) {
+            if (res.code != 200) {
+                error($.gritter, '用户信息拉取失败');
+                return false;
+            }
+
+            $rootScope.user = res.data;
+        });
+    };
+    $scope.loadUserProfile();
+
+
+
+    // 定义退出方法
     $scope.logout = function () {
-        $http.get('/logout');
+        $http.get('/logout').success(function (res) {
+            if (res && res.code == 200) {
+                localStorage.clear();
+                $state.go('login');
+            }
+        });
     }
 });
 
@@ -211,7 +232,9 @@ colorAdminApp.controller('themePanelController', function($scope, $rootScope, $s
    8.0 CONTROLLER - Dashboard v1
 ------------------------------- */
 colorAdminApp.controller('dashboardController', function($scope, $http, $rootScope, $state) {
+    $http.get('/demo').success(function (res) {
 
+    });
 });
 
 /* -------------------------------
@@ -222,8 +245,8 @@ colorAdminApp.controller('loginController', function($scope, $http, $rootScope, 
     $rootScope.setting.layout.paceTop = true;
     $rootScope.setting.layout.pageBgWhite = true;
 
-    $token = localStorage.getItem('token');
-    if ($token) {
+    var token = localStorage.getItem('token');
+    if (token) {
         $state.go('index.index.index');
         return;
     }

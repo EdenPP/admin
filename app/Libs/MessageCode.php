@@ -13,6 +13,7 @@ class MessageCode
 {
     const OK                    = 200;
     const FORBIDDEN             = 403;
+    const INNER_ERROR           = 501;
 
     // 1 开头的为通用错误类型
     const PARAMETER_ERROR       = 10001;    # 参数错误
