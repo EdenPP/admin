@@ -303,7 +303,12 @@ colorAdminApp.controller('loginController', function($scope, $http, $rootScope, 
 /* -------------------------------
 : system/admin/index
 ------------------------------- */
-colorAdminApp.controller('system-admin-controller', function($scope, $http, $state) {
+colorAdminApp.controller('system-admin-controller', ['$scope', '$http', '$state', 'Modal', function($scope, $http, $state, Modal) {
+
+    $scope.showModal = function () {
+        Modal.success('title');
+    };
+
     $scope.admin = {};
     $scope.getList = function (page) {
         $http.get('/user/list', {
@@ -324,4 +329,4 @@ colorAdminApp.controller('system-admin-controller', function($scope, $http, $sta
     };
 
     $scope.getList(1);
-});
+}]);

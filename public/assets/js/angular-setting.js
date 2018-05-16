@@ -34,7 +34,87 @@ colorAdminApp.factory('setting', ['$rootScope', function($rootScope) {
     return setting;
 }]);
 
-colorAdminApp.factory('UserInterceptor', ["$q","$rootScope", function ($q, $rootScope) {
+// Modal
+
+colorAdminApp.factory('Modal', ['$modal', function ($modal) {
+    var returnFunction = null;
+    var Modal = function (options) {
+        var _self = this, dialog = null;
+        var icons = {
+            alert: {
+                icon: 'fa-info-circle',
+                color: 'text-aqua'
+            },
+            success: {
+                icon: 'fa-check-circle',
+                color: 'text-green'
+            },
+            error: {
+                icon: 'fa-times-circle',
+                color: 'text-red'
+            }
+        };
+        _self.open = function () {
+            _self.dialog = $modal.open({
+                templateUrl: '/template/modal.html',
+                backdrop: 'static',
+                controller: function ($scope) {
+                    options.buttons = options.buttons || [{name: "确定", cmd: "ok"}];
+                    var type = options.type && icons[options.type] ? options.type : 'alert';
+                    $scope.icons = icons[type];
+                    $scope.type = type;
+                    $scope.title = options.title || '';
+                    $scope.content = options.content || '';
+                    $scope.buttons = [];
+                    angular.forEach((options.buttons), function (button) {
+                        button.click = function () {
+                            this.event = this.event || angular.noop;
+                            if (this.event(self) !== false) {
+                                _self.dialog.close(this.cmd);
+                            }
+                        };
+                        $scope.buttons.push(button);
+                    });
+                }
+            });
+            return _self.dialog.result;
+        };
+    };
+    var simpleModal = function (params, type) {
+        var title, content, buttons, modal;
+        if (typeof params === 'string') {
+            title = params;
+            content = '';
+        } else {
+            title = params.title;
+            content = params.content;
+            buttons = params.buttons
+        }
+        modal = new Modal({
+            type: type,
+            title: title,
+            content: content,
+            buttons: buttons
+        });
+        return modal.open();
+    };
+    returnFunction = function (data) {
+        return new Modal(data);
+    };
+    returnFunction.success = function (params) {
+        return simpleModal(params, 'success');
+    };
+    returnFunction.alert = function (params) {
+        return simpleModal(params, 'alert');
+    };
+    returnFunction.error = function (params) {
+        return simpleModal(params, 'error');
+    };
+    return returnFunction;
+}]);
+
+// 拦截请求响应事件
+colorAdminApp.factory('UserInterceptor', ["$q", "$rootScope", function ($q, $rootScope) {
     return {
         request:function(config){
             if (config.url && config.url.indexOf(".html") > 0) {

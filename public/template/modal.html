@@ -1,0 +1,50 @@
+<!-- Modal -->
+<style>
+    /*
+    .modal-content {
+        margin: 0 auto;
+        width: 380px;
+        z-index: 9999;
+    }
+    .modal-content .modal-header {
+        font-size: 14px;
+        padding: 3px 10px;
+    }
+    .modal-content .modal-body {
+        padding: 15px 15px;
+    }
+    .modal-content .modal-body h4.media-heading {
+        color: #333;
+        margin-top: 5px;
+    }
+    .modal-content .modal-body h4.media-heading.mg {
+        margin-top: 15px;
+    }
+    .modal-content .modal-footer {
+        margin-top: 0;
+        padding: 10px 15px;
+    }
+    .modal-content .modal-footer button.btn {
+        margin-left: 10px;
+    }
+    */
+</style>
+<div class="modal-content">
+    <div class="modal-header"><i style="font-style: normal;">操作提示</i></div>
+    <div class="modal-body">
+        <div class="media">
+            <div class="pull-left" style="margin-right: 15px;">
+                <i class="fa {{ icons.icon + ' ' + icons.color }}" style="font-size: 50px;"></i>
+            </div>
+            <div class="media-body">
+                <h4 class="media-heading" ng-class="{mg: content == ''}" ng-bind="title"></h4>
+                <p ng-show="content" ng-bind="content"></p>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-xs"
+                ng-class="{'btn-info': (buttons.length - 1) == $index && type == 'alert' && !btn.type, 'btn-danger': (buttons.length - 1) == $index && type == 'error' && !btn.type, 'btn-success': (buttons.length - 1) == $index && type == 'success' && !btn.type, 'btn-default': btn.type == 'cancel'}"
+                ng-repeat="($index, btn) in buttons" ng-bind="btn.name" ng-click="btn.click()"></button>
+    </div>
+</div>

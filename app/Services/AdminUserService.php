@@ -38,7 +38,7 @@ class AdminUserService
      */
     public static function update($uid, $data = [])
     {
-        return AdminUserModel::getInstance()->update($uid, $data);
+        return AdminUserModel::getInstance()->where('id', $uid)->update($data);
     }
 
     /**

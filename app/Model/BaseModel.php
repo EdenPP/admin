@@ -18,6 +18,7 @@ class BaseModel extends Model
 
     const DEFAULT_PAGESIZE = 10;
 
+    public $timestamps = false;
 
 
 }
