@@ -11,7 +11,7 @@ namespace App\Model;
 
 use Illuminate\Support\Facades\DB;
 
-class AdminUserModel extends DB
+class AdminUserModel extends Model
 {
 
     // 正常
@@ -30,6 +30,17 @@ class AdminUserModel extends DB
             self::$_instance = new self();
         }
         return self::$_instance;
+    }
+
+    /**
+     * 返回列表
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function list()
+    {
+        $model = DB::table($this->table)
+            ->orderByDesc('id');
+        return $model->paginate(parent::DEFAULT_PAGESIZE);
     }
 
     /**

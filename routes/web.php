@@ -25,6 +25,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['adm
     Route::get('/logout', 'LoginController@logOut');
 
     Route::group(['prefix' => 'user'], function () {
+        Route::get('/list', 'UserController@list');
         Route::get('/profile', 'UserController@profile');
     });
 

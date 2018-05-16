@@ -9,10 +9,9 @@
 
 namespace App\Model;
 
-
 use Illuminate\Support\Facades\DB;
 
-class AdminMenuModel extends DB
+class AdminMenuModel extends Model
 {
 
     const ADMIN_MENU_TOP = 0;

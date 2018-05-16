@@ -259,7 +259,7 @@ colorAdminApp.controller('loginController', function($scope, $http, $rootScope, 
 
     var token = localStorage.getItem('token');
     if (token) {
-        $state.go('index.index.index');
+        $state.go('app.index.index');
         return;
     }
 
@@ -293,9 +293,40 @@ colorAdminApp.controller('loginController', function($scope, $http, $rootScope, 
                 $.gritter.removeAll();
                 localStorage.setItem('token', resp.data.token);
                 success($.gritter, '登录成功');
-                $state.go('index.index.index');
+                $state.go('app.index.index');
             }
         });
 
     };
+});
+
+/* -------------------------------
+: system/admin/index
+------------------------------- */
+colorAdminApp.controller('system-admin-controller', function($scope, $http, $log, $state) {
+    $scope.admin = {};
+    $scope.getList = function (page) {
+        $http.get('/user/list', {
+            params: {
+                page: page
+            }
+        }).success(function (res) {
+            $scope.admin = res.data;
+            var info = res.data;
+            $scope.currentPage = info.current_page;
+            $scope.total = info.total;
+            $scope.pageSize = info.per_page;
+        });
+    };
+
+    $scope.DoCtrlPagingAct = function(text, page, pageSize, total) {
+        $scope.getList(page);
+        $log.info({
+            text: text,
+            page: page,
+            pageSize: pageSize,
+            total: total
+        });
+    };
+    $scope.getList(1);
 });

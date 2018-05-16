@@ -13,6 +13,7 @@ namespace App\Http\Controllers\Admin;
 use App\Exceptions\ResponseException;
 use App\Libs\MessageCode;
 use App\Libs\Response;
+use App\Services\AdminUserService;
 
 class UserController extends AdminBaseController
 {
@@ -20,6 +21,16 @@ class UserController extends AdminBaseController
     public function __construct()
     {
         parent::__construct();
+    }
+
+    /**
+     * 获取用户列表
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function list()
+    {
+        $result = AdminUserService::getAdminUserList();
+        return Response::success($result);
     }
 
     /**

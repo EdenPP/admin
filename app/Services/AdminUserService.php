@@ -23,6 +23,15 @@ class AdminUserService
     }
 
     /**
+     * @return mixed
+     */
+    public static function getAdminUserList()
+    {
+        $result = AdminUserModel::getInstance()->list();
+        return Util::objToArray($result);
+    }
+
+    /**
      * @param $uid
      * @param array $data
      * @return int

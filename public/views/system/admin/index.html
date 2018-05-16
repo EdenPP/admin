@@ -1,4 +1,4 @@
-<div ng-controller="dashboardController">
+<div ng-controller="system-admin-controller">
     <!-- begin breadcrumb -->
     <ol class="breadcrumb pull-right">
         <li><a href="javascript:;">后台首页</a></li>
@@ -7,11 +7,77 @@
     </ol>
     <!-- end breadcrumb -->
     <!-- begin page-header -->
-    <h1 class="page-header">Dashboard <small>header small text goes here...</small></h1>
+    <h1 class="page-header">管理员列表 <small>包含所有后台用户</small></h1>
     <!-- end page-header -->
 
     <!-- begin row -->
     <div class="row">
-
+        <!-- begin col-6 -->
+        <div class="col-md-12">
+            <!-- begin panel -->
+            <div class="panel panel-inverse" data-sortable-id="table-basic-4">
+                <div class="panel-heading">
+                    <div class="panel-heading-btn">
+                        <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                        <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-repeat"></i></a>
+                        <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+                        <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
+                    </div>
+                    <h4 class="panel-title">管理员列表</h4>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th class="text-center">编号</th>
+                            <th class="text-center">头像</th>
+                            <th class="text-center">昵称</th>
+                            <th class="text-center">邮箱</th>
+                            <th class="text-center">手机号</th>
+                            <th class="text-center">创建时间</th>
+                            <th class="text-center">最后登录</th>
+                            <th class="text-center">登录IP</th>
+                            <th class="text-center">用户状态</th>
+                            <th class="text-center">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="u in admin.data" class="text-center">
+                            <td ng-bind="u.id"></td>
+                            <td ng-bind="u.id"></td>
+                            <td ng-bind="u.nickname"></td>
+                            <td ng-bind="u.email"></td>
+                            <td ng-bind="u.phone"></td>
+                            <td ng-bind="u.create_time"></td>
+                            <td ng-bind="u.update_time"></td>
+                            <td ng-bind="u.update_ip"></td>
+                            <td ng-bind="u.status"></td>
+                            <td>
+                                <a href="javascript:void(0);">删除</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="panel-footer">
+                    <paging
+                            class="small"
+                            page="currentPage"
+                            page-size="pageSize"
+                            total="total"
+                            text-title-page="{{textTitlePage}}"
+                            text-title-first="{{textTitleFirst}}"
+                            text-title-last="{{textTitleLast}}"
+                            text-title-next="{{textTitleNext}}"
+                            text-title-prev="{{textTitlePrev}}"
+                            show-prev-next="true"
+                            show-first-last="true"
+                            paging-action="DoCtrlPagingAct('Paging Clicked', page, pageSize, total)">
+                    </paging>
+                </div>
+            </div>
+            <!-- end panel -->
+        </div>
+        <!-- end col-6 -->
     </div>
 </div>
