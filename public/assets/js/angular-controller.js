@@ -303,7 +303,7 @@ colorAdminApp.controller('loginController', function($scope, $http, $rootScope, 
 /* -------------------------------
 : system/admin/index
 ------------------------------- */
-colorAdminApp.controller('system-admin-controller', function($scope, $http, $log, $state) {
+colorAdminApp.controller('system-admin-controller', function($scope, $http, $state) {
     $scope.admin = {};
     $scope.getList = function (page) {
         $http.get('/user/list', {
@@ -321,12 +321,7 @@ colorAdminApp.controller('system-admin-controller', function($scope, $http, $log
 
     $scope.DoCtrlPagingAct = function(text, page, pageSize, total) {
         $scope.getList(page);
-        $log.info({
-            text: text,
-            page: page,
-            pageSize: pageSize,
-            total: total
-        });
     };
+
     $scope.getList(1);
 });

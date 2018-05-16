@@ -11,7 +11,7 @@ namespace App\Model;
 
 use Illuminate\Support\Facades\DB;
 
-class AdminUserModel extends Model
+class AdminUserModel extends BaseModel
 {
 
     // 正常
@@ -60,11 +60,13 @@ class AdminUserModel extends Model
      * @param array $data
      * @return int
      */
+    /*
     public function update($uid, $data)
     {
         $data['update_time'] = date('Y-m-d H:i:s');
         return DB::table($this->table)->where('id', $uid)->update($data);
     }
+    */
 
 
 

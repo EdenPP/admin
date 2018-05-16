@@ -11,10 +11,13 @@ namespace App\Model;
 
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Model;
 
-class Model extends DB
+class BaseModel extends Model
 {
 
     const DEFAULT_PAGESIZE = 10;
+
+
 
 }
