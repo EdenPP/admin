@@ -21,22 +21,6 @@ colorAdminApp.config(['$stateProvider', '$urlRouterProvider', function($statePro
     // $urlRouterProvider.html5Mode(true);
 
     $stateProvider
-        .state('index', {
-            url: '/index',
-            templateUrl: 'template/app.html',
-            abstract: true
-        })
-        .state('index.index', {
-            url: '/index',
-            template: '<div ui-view></div>',
-            abstract: true
-        })
-        .state('index.index.index', {
-            url: '/index',
-            templateUrl: 'views/index.html',
-            data: { pageTitle: '后台首页' },
-            resolve: {}
-        })
         .state('login', {
             url: '/login',
             data: { pageTitle: '用户登录' },
@@ -51,6 +35,60 @@ colorAdminApp.config(['$stateProvider', '$urlRouterProvider', function($statePro
                 }]
             },
             templateUrl: 'views/login.html'
+        })
+        .state('app', {
+            url: '',
+            templateUrl: 'template/app.html',
+            abstract: true
+        })
+
+        /* 以下为 system 节 */
+        .state('app.index', {
+            url: '/index',
+            template: '<div ui-view></div>',
+            abstract: true
+        })
+        .state('app.index.index', {
+            url: '/index/index',
+            templateUrl: 'views/index.html',
+            data: { pageTitle: '后台首页' },
+            resolve: {}
+        })
+
+        /* 以下为 system 节 */
+        .state('app.system', {
+            url: '/system',
+            template: '<div ui-view></div>',
+            abstract: true
+        })
+        .state('app.system.setting', {
+            url: '/setting',
+            template: '<div ui-view></div>',
+            abstract: true
+        })
+        .state('app.system.setting.index', {
+            url: '/index',
+            templateUrl: 'views/system/setting/index.html',
+            data: { pageTitle: '系统设置' },
+            resolve: {}
+        })
+        .state('app.system.setting.add', {
+            url: '/add',
+            templateUrl: 'views/system/setting/add.html',
+            data: { pageTitle: '添加设置' },
+            resolve: {}
+        })
+
+        .state('app.system.admin', {
+            url: '/admin',
+            template: '<div ui-view></div>',
+            abstract: true
+        })
+        .state('app.system.admin.index', {
+            url: '/index',
+            templateUrl: 'views/system/admin/index.html',
+            data: {pageTitle: '管理员设置'},
+            resolve: {}
         })
 }]);
 

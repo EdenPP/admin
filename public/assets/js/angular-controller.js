@@ -102,8 +102,22 @@ colorAdminApp.controller('appController', ['$rootScope', '$scope', '$state', fun
 /* -------------------------------
    2.0 CONTROLLER - Sidebar
 ------------------------------- */
-colorAdminApp.controller('sidebarController', function($scope, $rootScope, $state) {
-    App.initSidebar();
+colorAdminApp.controller('sidebarController', function($scope, $http, $q, $rootScope, $state) {
+    function getMenu() {
+        var deferred = $q.defer();
+        $http.get('/system/menu').success(function (resp) {
+            deferred.resolve(resp);
+        });
+        return deferred.promise;
+    }
+
+    getMenu().then(function (data) {
+        $scope.menu = data.data;
+    }).then(function () {
+        setTimeout(function () {
+            App.initSidebar();
+        })
+    });
 });
 
 
@@ -232,9 +246,7 @@ colorAdminApp.controller('themePanelController', function($scope, $rootScope, $s
    8.0 CONTROLLER - Dashboard v1
 ------------------------------- */
 colorAdminApp.controller('dashboardController', function($scope, $http, $rootScope, $state) {
-    $http.get('/demo').success(function (res) {
 
-    });
 });
 
 /* -------------------------------

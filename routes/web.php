@@ -28,4 +28,9 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['adm
         Route::get('/profile', 'UserController@profile');
     });
 
+    // 站点管理
+    Route::group(['prefix' => 'system'], function () {
+        Route::get('/menu', 'SystemController@menu');
+    });
+
 });

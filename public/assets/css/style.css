@@ -647,11 +647,9 @@ label {
 .sidebar .sub-menu > li > a:focus,
 .sidebar .sub-menu > li.active > a,
 .sidebar .sub-menu > li.active > a:hover,
-.sidebar .sub-menu > li.active > a:focus {
-    color: #fff;
-}
+.sidebar .sub-menu > li.active > a:focus,
 .sidebar .nav > li li.has-sub.active > a {
-    color: #889097;
+    color: #fff;
 }
 .sidebar .sub-menu > li.active > a:before {
     color: #00acac;
