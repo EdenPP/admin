@@ -37,7 +37,7 @@ colorAdminApp.config(['$stateProvider', '$urlRouterProvider', function($statePro
             templateUrl: 'views/login.html'
         })
         .state('app', {
-            url: '',
+            url: '/index',
             templateUrl: 'template/app.html',
             abstract: true
         })
@@ -61,34 +61,22 @@ colorAdminApp.config(['$stateProvider', '$urlRouterProvider', function($statePro
             template: '<div ui-view></div>',
             abstract: true
         })
-        .state('app.system.setting', {
-            url: '/setting',
-            template: '<div ui-view></div>',
-            abstract: true
-        })
-        .state('app.system.setting.index', {
-            url: '/index',
+        .state('app.system.setting_index', {
+            url: '/setting/index',
             templateUrl: 'views/system/setting/index.html',
             data: { pageTitle: '系统设置' },
             resolve: {}
         })
-        .state('app.system.setting.add', {
-            url: '/add',
+        .state('app.system.setting_add', {
+            url: '/setting/add',
             templateUrl: 'views/system/setting/add.html',
             data: { pageTitle: '添加设置' },
             resolve: {}
         })
-
-        .state('app.system.admin', {
-            url: '/admin',
-            template: '<div ui-view></div>',
-            abstract: true
-        })
-        .state('app.system.admin.index', {
-            url: '/index',
+        .state('app.system.admin_index', {
+            url: '/admin/index',
             templateUrl: 'views/system/admin/index.html',
-            data: {pageTitle: '管理员设置'},
-            resolve: {}
+            data: {pageTitle: '管理员设置'}
         })
 }]);
 

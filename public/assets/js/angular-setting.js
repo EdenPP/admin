@@ -98,14 +98,15 @@ colorAdminApp.factory('Modal', function () {
             '            </div>'+
             '            <div class="modal-footer">'+
             '                <a href="javascript:;" class="btn btn-sm btn-default" data-dismiss="modal"><i class="fa fa-close"></i> 取消</a>'+
-            '                <a href="javascript:;" class="btn btn-sm btn-info" data-click="confirm-reset-local-storage"><i class="fa fa-check"></i> 确定</a>'+
+            '                <a href="javascript:;" class="btn btn-sm btn-info" data-click="confirm-global-modal"><i class="fa fa-check"></i> 确定</a>'+
             '            </div>'+
             '        </div>'+
             '    </div>'+
             '</div>';
 
         $('body').append(targetModalHtml);
-        $(document).off('click').on('click', '[data-click=confirm-reset-local-storage]', function(e) {
+
+        $('[data-click="confirm-global-modal"]').off('click').on('click', function(e) {
             e.preventDefault();
             if (options.event) {
                 options.event();
@@ -115,7 +116,6 @@ colorAdminApp.factory('Modal', function () {
 
         $(document).off('hidden.bs.modal').on('hidden.bs.modal', '[data-modal-id="global-modal-template"]', function(e) {
             $('[data-modal-id="global-modal-template"]').remove();
-            $('body').remove('[data-modal-id="global-modal-template"]');
         });
 
         return {

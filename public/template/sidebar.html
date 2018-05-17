@@ -29,14 +29,14 @@
                     <span ng-bind="m.name"></span>
                 </a>
                 <ul class="sub-menu" ng-if="m.children.length > 0">
-                    <li class="has-sub" ng-repeat="m1 in m.children" ui-sref-active="{{m1.children.length > 0 ? '' : 'active'}}">
+                    <li class="has-sub" ng-repeat="m1 in m.children" ng-class="{'active': $state.current.name.indexOf(m1.url) > -1}" ui-sref-active="{{m1.children.length > 0 ? '' : 'active'}}">
                         <a ui-sref="{{m1.url}}" ng-bind="m1.name" ng-if="m1.children.length == 0" ></a>
                         <a href="javascript:;" ng-if="m1.children.length > 0">
                             <b class="caret pull-right"></b>
                             {{m1.name}}
                         </a>
                         <ul class="sub-menu" ng-if="m1.children.length > 0">
-                            <li ng-repeat="m2 in m1.children" ng-class="{'active': $state.includes(m2.url)}" ui-sref-active="active">
+                            <li ng-repeat="m2 in m1.children" ng-class="{'active': $state.current.name.indexOf(m2.url) > -1}" ui-sref-active="active">
                                 <a href="javascript:;" ui-sref="{{m2.url}}" ng-bind="m2.name"></a>
                             </li>
                         </ul>

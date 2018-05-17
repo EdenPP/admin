@@ -293,7 +293,7 @@ colorAdminApp.controller('loginController', function($scope, $http, $rootScope, 
 /* -------------------------------
 : system/admin/index
 ------------------------------- */
-colorAdminApp.controller('system-admin-controller', ['$scope', '$http', '$state', 'Modal', 'Tip', function($scope, $http, $state, Modal, Tip) {
+colorAdminApp.controller('system-admin-controller', ['$scope', '$http', '$q', 'Modal', 'Tip', function($scope, $http, $q, Modal, Tip) {
 
     $scope.showModal = function (id) {
         Modal.success({
@@ -321,7 +321,9 @@ colorAdminApp.controller('system-admin-controller', ['$scope', '$http', '$state'
                 page: page
             }
         }).success(function (res) {
+
             $scope.admin = res.data;
+
             var info = res.data;
             $scope.currentPage = info.current_page;
             $scope.total = info.total;
