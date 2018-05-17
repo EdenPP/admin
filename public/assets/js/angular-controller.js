@@ -295,6 +295,11 @@ colorAdminApp.controller('loginController', function($scope, $http, $rootScope, 
 ------------------------------- */
 colorAdminApp.controller('system-admin-controller', ['$scope', '$http', '$q', 'Modal', 'Tip', function($scope, $http, $q, Modal, Tip) {
 
+    $scope.userStatus = {
+        '6': '正常'
+    };
+    $scope.admin = {};
+
     $scope.showModal = function (id) {
         Modal.success({
             'content': '您确定要删除此用户吗？',
@@ -314,7 +319,6 @@ colorAdminApp.controller('system-admin-controller', ['$scope', '$http', '$q', 'M
         });
     };
 
-    $scope.admin = {};
     $scope.getList = function (page) {
         $http.get('/user/list', {
             params: {
