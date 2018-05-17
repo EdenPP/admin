@@ -53,7 +53,7 @@
                             <td ng-bind="u.update_ip"></td>
                             <td ng-bind="u.status"></td>
                             <td>
-                                <a ng-click="showModal()">删除</a>
+                                <a href="javascript:;" ng-click="showModal(u.id)">删除</a>
                             </td>
                         </tr>
                         </tbody>
@@ -70,9 +70,7 @@
                             text-title-last="{{textTitleLast}}"
                             text-title-next="{{textTitleNext}}"
                             text-title-prev="{{textTitlePrev}}"
-                            show-prev-next="true"
-                            show-first-last="true"
-                            paging-action="DoCtrlPagingAct('Paging Clicked', page, pageSize, total)">
+                            paging-action="DoCtrlPagingAct(page)">
                     </paging>
                 </div>
             </div>

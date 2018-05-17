@@ -156,8 +156,8 @@ colorAdminApp.directive('paging', function () {
         scope.textTitlePrev = scope.textTitlePrev || 'Previous Page';
 
         scope.hideIfEmpty = evalBoolAttribute(scope, attrs.hideIfEmpty);
-        scope.showPrevNext = evalBoolAttribute(scope, attrs.showPrevNext);
-        scope.showFirstLast = evalBoolAttribute(scope, attrs.showFirstLast);
+        scope.showPrevNext = true;
+        scope.showFirstLast = true;
         scope.scrollTop = evalBoolAttribute(scope, attrs.scrollTop);
         scope.isDisabled = evalBoolAttribute(scope, attrs.disabled);
     }

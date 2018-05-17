@@ -232,16 +232,6 @@ colorAdminApp.controller('pageLoaderController', function($scope, $rootScope, $s
 });
 
 
-
-/* -------------------------------
-   7.0 CONTROLLER - Theme Panel
-------------------------------- */
-colorAdminApp.controller('themePanelController', function($scope, $rootScope, $state) {
-    App.initThemePanel();
-});
-
-
-
 /* -------------------------------
    8.0 CONTROLLER - Dashboard v1
 ------------------------------- */
@@ -303,10 +293,25 @@ colorAdminApp.controller('loginController', function($scope, $http, $rootScope, 
 /* -------------------------------
 : system/admin/index
 ------------------------------- */
-colorAdminApp.controller('system-admin-controller', ['$scope', '$http', '$state', 'Modal', function($scope, $http, $state, Modal) {
+colorAdminApp.controller('system-admin-controller', ['$scope', '$http', '$state', 'Modal', 'Tip', function($scope, $http, $state, Modal, Tip) {
 
-    $scope.showModal = function () {
-        Modal.success('title');
+    $scope.showModal = function (id) {
+        Modal.success({
+            'content': '您确定要删除此用户吗？',
+            'event': function () {
+                $http.get('/demo', {
+                    params: {
+                        id: id
+                    }
+                }).success(function (res) {
+                    if (res.code == 200) {
+                        Tip.success('此用户删除成功');
+                    } else {
+                        Tip.error('此用户删除失败，请重试');
+                    }
+                });
+            }
+        });
     };
 
     $scope.admin = {};
@@ -324,7 +329,7 @@ colorAdminApp.controller('system-admin-controller', ['$scope', '$http', '$state'
         });
     };
 
-    $scope.DoCtrlPagingAct = function(text, page, pageSize, total) {
+    $scope.DoCtrlPagingAct = function(page) {
         $scope.getList(page);
     };
 

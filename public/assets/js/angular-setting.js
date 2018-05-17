@@ -34,84 +34,128 @@ colorAdminApp.factory('setting', ['$rootScope', function($rootScope) {
     return setting;
 }]);
 
-// Modal
+colorAdminApp.factory('Tip', function () {
+   "use strict";
 
-colorAdminApp.factory('Modal', ['$modal', function ($modal) {
-    var returnFunction = null;
-    var Modal = function (options) {
-        var _self = this, dialog = null;
-        var icons = {
-            alert: {
-                icon: 'fa-info-circle',
-                color: 'text-aqua'
-            },
-            success: {
-                icon: 'fa-check-circle',
-                color: 'text-green'
-            },
-            error: {
-                icon: 'fa-times-circle',
-                color: 'text-red'
+    function alert(content, type) {
+
+        var image = 'assets/img/success.png';
+        if (type == 'error') {
+            image = 'assets/img/error.png';
+        }
+        var content = content || (type == 'success' ? '操作成功' : '操作失败');
+
+        $.gritter.add({
+            title: '提示',
+            text: content,
+            image: image,
+            sticky: false,
+            time: 3000
+        });
+    }
+
+    return {
+        success: function (content) {
+            alert(content, 'success');
+        },
+        error: function (content) {
+            alert(content, 'error');
+        }
+    };
+});
+
+// Modal
+colorAdminApp.factory('Modal', function () {
+
+    "use strict";
+
+    var modal = function (options) {
+
+        var icon = '';
+        switch (options.type) {
+            case 'alert':
+                icon = 'text-info fa-info-circle';
+                break;
+            case 'error':
+                icon = 'text-danger fa-times-circle';
+                break;
+            case 'success':
+                icon = 'text-success fa-check-circle';
+                break;
+            default:
+                icon = 'text-info fa-info-circle';
+        }
+
+        var targetModalHtml = ''+
+            '<div class="modal fade" data-modal-id="global-modal-template">'+
+            '    <div class="modal-dialog">'+
+            '        <div class="modal-content">'+
+            '            <div class="modal-header" style="border-bottom: none;">'+
+            '                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>'+
+            '                <h4 class="modal-title" style="font-size: 14px; font-weight: normal;"><i class="fa m-r-5 ' + icon + '"></i> ' + options.title + '</h4>'+
+            '            </div>'+
+            '            <div class="modal-body" style="font-size: 16px;">'+ options.content +
+            '            </div>'+
+            '            <div class="modal-footer">'+
+            '                <a href="javascript:;" class="btn btn-sm btn-default" data-dismiss="modal"><i class="fa fa-close"></i> 取消</a>'+
+            '                <a href="javascript:;" class="btn btn-sm btn-info" data-click="confirm-reset-local-storage"><i class="fa fa-check"></i> 确定</a>'+
+            '            </div>'+
+            '        </div>'+
+            '    </div>'+
+            '</div>';
+
+        $('body').append(targetModalHtml);
+        $(document).off('click').on('click', '[data-click=confirm-reset-local-storage]', function(e) {
+            e.preventDefault();
+            if (options.event) {
+                options.event();
+            }
+            $('[data-modal-id="global-modal-template"]').modal('hide');
+        });
+
+        $(document).off('hidden.bs.modal').on('hidden.bs.modal', '[data-modal-id="global-modal-template"]', function(e) {
+            $('[data-modal-id="global-modal-template"]').remove();
+            $('body').remove('[data-modal-id="global-modal-template"]');
+        });
+
+        return {
+            open: function () {
+                $('[data-modal-id="global-modal-template"]').modal('show');
             }
         };
-        _self.open = function () {
-            _self.dialog = $modal.open({
-                templateUrl: '/template/modal.html',
-                backdrop: 'static',
-                controller: function ($scope) {
-                    options.buttons = options.buttons || [{name: "确定", cmd: "ok"}];
-                    var type = options.type && icons[options.type] ? options.type : 'alert';
-                    $scope.icons = icons[type];
-                    $scope.type = type;
-                    $scope.title = options.title || '';
-                    $scope.content = options.content || '';
-                    $scope.buttons = [];
-                    angular.forEach((options.buttons), function (button) {
-                        button.click = function () {
-                            this.event = this.event || angular.noop;
-                            if (this.event(self) !== false) {
-                                _self.dialog.close(this.cmd);
-                            }
-                        };
-                        $scope.buttons.push(button);
-                    });
-                }
-            });
-            return _self.dialog.result;
-        };
     };
+
     var simpleModal = function (params, type) {
-        var title, content, buttons, modal;
+        var content, event;
         if (typeof params === 'string') {
-            title = params;
-            content = '';
+            content = params;
+            event = null;
         } else {
-            title = params.title;
-            content = params.content;
-            buttons = params.buttons
+            content = params.content || '';
+            event = params.event || null;
         }
-        modal = new Modal({
-            type: type,
-            title: title,
-            content: content,
-            buttons: buttons
+
+        var obj = new modal({
+            'title': '提示信息',
+            'type': type,
+            'content': content,
+            'event': event
         });
-        return modal.open();
+        return obj;
     };
-    returnFunction = function (data) {
-        return new Modal(data);
+
+    return {
+        success: function (params) {
+            simpleModal(params, 'success').open();
+        },
+        alert: function (params) {
+            simpleModal(params, 'alert').open();
+        },
+        error: function (params) {
+            simpleModal(params, 'error').open();
+        }
     };
-    returnFunction.success = function (params) {
-        return simpleModal(params, 'success');
-    };
-    returnFunction.alert = function (params) {
-        return simpleModal(params, 'alert');
-    };
-    returnFunction.error = function (params) {
-        return simpleModal(params, 'error');
-    };
-    return returnFunction;
-}]);
+});
 
 // 拦截请求响应事件
 colorAdminApp.factory('UserInterceptor', ["$q", "$rootScope", function ($q, $rootScope) {
